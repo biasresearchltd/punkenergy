@@ -5,7 +5,6 @@ import {
   Text,
   Link,
   VStack,
-  Code,
   Grid,
   theme,
   extendTheme
@@ -43,15 +42,15 @@ function App() {
   return (
     <ChakraProvider theme={myTheme}>
       <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <VStack spacing={8}>
-            <Logo w="100vmin" pointerEvents="none" />
-            <Text
+        <Grid minH="100vh" p={0}>
+          <VStack spacing={2}>
+            <Logo w="100vw" pointerEvents="none" />
+            <Link
               color="white"
-              pointerEvents="none"
+              href="https://create.zora.co/collections/0x892e712e7917c06bf3b73260c7a535ec006512d6"
             >
               𝙳𝙾 𝚈𝙾𝚄 𝙻𝙾𝚅𝙴 𝙿𝙾𝚂𝚃𝙴𝚁 𝙾𝙾𝟻?
-            </Text>
+            </Link>
             <Text
               color="white"
               pointerEvents="none"
@@ -62,7 +61,7 @@ function App() {
               padding="1vw"
               color="black"
               href="https://www.twitter.com/ppuunnkkdotcom"
-              fontSize="6xl"
+              fontSize="8xl"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -79,6 +78,9 @@ function App() {
             >
               𝙵𝚁𝙴𝙴 𝚈𝙾𝚄𝚁 𝙿𝚄𝙽𝙺.
             </Link>
+            <Box
+              p={4}
+            />
           </VStack>
         </Grid>
       </Box>
