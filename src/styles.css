@@ -15,35 +15,59 @@ body {
   color: #fff;
   font-weight: 500;
   height: 100vh;
-  max-height: 100vh;
+  min-height: 100vh;
   font-family: emoji;
   width: 100vw;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
 }
 
 .number-slide1 {
   background: rgb(64, 175, 255);
   background-image: url("./pstr/pstr001.png");
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
   
 }
 
 .number-slide2 {
   background: rgb(255, 75, 64);
   background-image: url("./pstr/pstr002.png");
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
 }
 
 .number-slide3 {
   background: rgb(182, 255, 64);
   background-image: url("./pstr/pstr003.png");
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
 }
 
 .number-slide4 {
   background: rgb(64, 255, 242);
   background-image: url("./pstr/pstr004.png");
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
 }
 
 .number-slide5 {
   background: rgb(255, 64, 156);
-  background-image: url("./pstr/pstr005.png");;
+  background-image: url("./pstr/pstr005.png");
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
 }
 .number-slide6 {
   background: rgb(0, 0, 0);
