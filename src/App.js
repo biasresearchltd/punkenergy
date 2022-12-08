@@ -1,65 +1,83 @@
 import React from "react"
+import { useState } from "react"
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
 import "./styles.css"
 
-export default () => {
-  const [slider1Ref] = useKeenSlider({
-	loop: true,
-	mode: "free",
-	slides: {
-	  origin: "center",
-	  perView: 1,
-	},
-	overflowY: "scroll",
-	overflowX: "scroll",
-	selector: ".first > .keen-slider__slide",
-  })
+const WheelControls = (slider) => {
+  let touchTimeout
+  let position
+  let wheelActive
 
-  const [slider2Ref] = useKeenSlider({
-	loop: true,
-	mode: "free",
-	slides: {
-	  perView: 1,
-	},
-  })
+  function dispatch(e, name) {
+	position.x -= e.deltaX
+	position.y -= e.deltaY
+	slider.container.dispatchEvent(
+	  new CustomEvent(name, {
+		detail: {
+		  x: position.x,
+		  y: position.y,
+		},
+	  })
+	)
+  }
 
-  const [slider3Ref] = useKeenSlider({
-	loop: true,
-	mode: "free",
-	rubberband: false,
-	slides: {
-	  perView: 1,
-	},
-	vertical: true,
-  })
+  function wheelStart(e) {
+	position = {
+	  x: e.pageX,
+	  y: e.pageY,
+	}
+	dispatch(e, "ksDragStart")
+  }
 
+  function wheel(e) {
+	dispatch(e, "ksDrag")
+  }
+
+  function wheelEnd(e) {
+	dispatch(e, "ksDragEnd")
+  }
+
+  function eventWheel(e) {
+	e.preventDefault()
+	if (!wheelActive) {
+	  wheelStart(e)
+	  wheelActive = true
+	}
+	wheel(e)
+	clearTimeout(touchTimeout)
+	touchTimeout = setTimeout(() => {
+	  wheelActive = false
+	  wheelEnd(e)
+	}, 50)
+  }
+
+  slider.on("created", () => {
+	slider.container.addEventListener("wheel", eventWheel, {
+	  passive: false,
+	})
+  })
+}
+
+export default function App() {
+  const [sliderRef] = useKeenSlider(
+	{
+	  mode: 'free',
+	  loop: 'true',
+	  rubberband: false,
+	  overflow: 'scroll',
+	  vertical: true,
+	}
+  )
+	
   return (
-	<div ref={slider1Ref} className="keen-slider first">
-	  <div className="keen-slider__slide number-slide1">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟷</div>
-	  <div className="keen-slider__slide number-slide2" style={{ minWidth: "100%", maxWidth: "100vw" }}>
-		<div
-		  ref={slider2Ref}
-		  className="keen-slider"
-		  style={{ minWidth: "100%", maxWidth: "100vw" }}
-		>
-		  <div className="keen-slider__slide number-slide2">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟸</div>
-		  <div className="keen-slider__slide number-slide3">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟹</div>
-		  <div className="keen-slider__slide number-slide4">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟺</div>
-		</div>
-	  </div>
-	  <div className="keen-slider__slide number-slide5">
-		<div
-		  ref={slider3Ref}
-		  className="keen-slider"
-		  style={{ height: "100vh", width: "100vw" }}
-		>
-		  <div className="keen-slider__slide number-slide5">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟻</div>
-		  <div className="keen-slider__slide number-slide5">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟻</div>
-		  <div className="keen-slider__slide number-slide5">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟻</div>
-		</div>
-	  </div>
-	  <div className="keen-slider__slide number-slide6">𝙿𝙾𝚂𝚃𝙴𝚁 𝟶𝟶𝟼</div>
+	<div ref={sliderRef} className="keen-slider-scrollable" style={{ height: "100vh" }}>
+	  <div className="keen-slider__slide number-slide1"><p>Poster 001</p></div>
+	  <div className="keen-slider__slide number-slide2"><p>Poster 002</p></div>
+	  <div className="keen-slider__slide number-slide3"><p>Poster 003</p></div>
+	  <div className="keen-slider__slide number-slide4"><p>Poster 004</p></div>
+	  <div className="keen-slider__slide number-slide5"><p>Poster 005</p></div>
+	  <div className="keen-slider__slide number-slide6"><p>Poster 006</p></div>
 	</div>
   )
 }

@@ -1,77 +1,129 @@
+@font-face {
+  font-family: 'NeueBit';
+  src: url("../fonts/ppneuebit-regular-webfont.woff2") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NeueBitBold';
+  src: url("../fonts/ppneuebit-bold-webfont.woff2") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+	font-family: 'CMU Typewriter Text';
+	src: url('../fonts/CMUTypewriter-Regular.woff2') format('woff2'),
+		url('../fonts/CMUTypewriter-Regular.woff') format('woff');
+	font-weight: 1000;
+	font-style: normal;
+	font-display: swap;
+}
+
 body {
   margin: 0;
+  background: rgb(0,0,0);
   font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.keen-slider__slide {
+	background-size: contain;
+	max-height: 90vh;
+}
+
 [class^="number-slide"],
 [class*=" number-slide"] {
-  background: grey;
+  background: rgb(0, 0, 0);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 50px;
+  align-items: left;
+  justify-content: left;
+  font-size: 1.666em;
   color: #fff;
   font-weight: 500;
-  height: 100vh;
-  min-height: 100vh;
+  min-height: 50vh;
+  max-height: 100vh;
   font-family: emoji;
   width: 100vw;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
+  /* writing-mode: vertical-lr; */
+}
+
+[class^="number-slide"],
+[class*=" number-slide"] > p {
+  writing-mode: vertical-lr;
+  text-orientation: sideways;
+  padding: 2vw;
+  font-family: 'CMU Typewriter Text';
+  text-transform: uppercase;
+  transform: rotate(-180deg) scaleX(2);
+  cursor: pointer;
 }
 
 .number-slide1 {
-  background: rgb(64, 175, 255);
   background-image: url("./pstr/pstr001.png");
+  background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
-  
+  background-repeat: no-repeat;
 }
 
 .number-slide2 {
-  background: rgb(255, 75, 64);
   background-image: url("./pstr/pstr002.png");
+  background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .number-slide3 {
-  background: rgb(182, 255, 64);
   background-image: url("./pstr/pstr003.png");
+  background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .number-slide4 {
-  background: rgb(64, 255, 242);
   background-image: url("./pstr/pstr004.png");
+  background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .number-slide5 {
-  background: rgb(255, 64, 156);
   background-image: url("./pstr/pstr005.png");
+  background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
   -o-background-size: contain;
   background-size: contain;
+  background-repeat: no-repeat;
 }
+
 .number-slide6 {
-  background: rgb(0, 0, 0);
+  background-image: url("./pstr/pstr006.png");
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
+
 .number-slide7 {
   background: rgb(0, 0, 0);
 }
