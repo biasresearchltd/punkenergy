@@ -2,7 +2,7 @@ import React from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import './styles.css';
-import NoiseOverlay from './components/NoiseOverlay';
+import { NoiseOverlay } from './components/NoiseOverlay';
 
 export default function App() {
   const [sliderRef] = useKeenSlider({
