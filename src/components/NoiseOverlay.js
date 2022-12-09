@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 
 export const NoiseOverlay = () => {
   useEffect(() => {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     let canvas;
     let ctx;
-    let wWidth;
-    let wHeight;
     let noiseData = [];
     let frame = 0;
     let loopTimeout;
@@ -13,12 +13,12 @@ export const NoiseOverlay = () => {
 
     const noise = () => {
       const createNoise = () => {
-        const idata = ctx.createImageData(wWidth, wHeight);
+        const idata = ctx.createImageData(width, height);
         const buffer32 = new Uint32Array(idata.data.buffer);
         const len = buffer32.length;
 
         for (let i = 0; i < len; i++) {
-          if (Math.random() < 0.2666) {
+          if (Math.random() < 0.0666) {
             buffer32[i] = 0xffffffff;
           }
         }
@@ -45,11 +45,8 @@ export const NoiseOverlay = () => {
       };
 
       const setup = () => {
-        wWidth = window.innerWidth;
-        wHeight = window.innerHeight;
-
-        canvas.width = wWidth;
-        canvas.height = wHeight;
+        canvas.width = width;
+        canvas.height = height;
 
         for (let i = 0; i < 10; i++) {
           createNoise();
@@ -67,7 +64,7 @@ export const NoiseOverlay = () => {
             resizeThrottle = window.setTimeout(() => {
               window.clearTimeout(loopTimeout);
               setup();
-            }, 500);
+            }, 200);
           },
           false
         );
@@ -94,11 +91,11 @@ export const NoiseOverlay = () => {
         position: 'fixed',
         top: 0,
         left: 0,
-        height: '100%',
-        width: '100%',
+        height: '100vh',
+        width: '100vw',
         zIndex: 9999,
         pointerEvents: 'none',
-        opacity: 0.06,
+        opacity: 0.075,
         transform: 'translateZ(0)',
       }}
     />
