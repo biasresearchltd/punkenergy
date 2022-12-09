@@ -1,39 +1,44 @@
 @font-face {
   font-family: 'NeueBit';
-  src: url("../fonts/ppneuebit-regular-webfont.woff2") format("woff");
+  src: url('../fonts/ppneuebit-regular-webfont.woff2') format('woff');
   font-display: swap;
 }
 
 @font-face {
   font-family: 'NeueBitBold';
-  src: url("../fonts/ppneuebit-bold-webfont.woff2") format("woff");
+  src: url('../fonts/ppneuebit-bold-webfont.woff2') format('woff');
   font-display: swap;
 }
 
 @font-face {
-	font-family: 'CMU Typewriter Text';
-	src: url('../fonts/CMUTypewriter-Regular.woff2') format('woff2'),
-		url('../fonts/CMUTypewriter-Regular.woff') format('woff');
-	font-weight: 1000;
-	font-style: normal;
-	font-display: swap;
+  font-family: 'CMU Typewriter Text';
+  src: url('../fonts/CMUTypewriter-Regular.woff2') format('woff2'),
+    url('../fonts/CMUTypewriter-Regular.woff') format('woff');
+  font-weight: 1000;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
   margin: 0;
-  background: rgb(0,0,0);
-  font-family: "Inter", sans-serif;
+  background: rgb(0, 0, 0);
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: grab;
+}
+
+body:active {
+  cursor: grabbing;
 }
 
 .keen-slider__slide {
-	background-size: contain;
-	max-height: 90vh;
+  background-size: contain;
+  max-height: 90vh;
 }
 
-[class^="number-slide"],
-[class*=" number-slide"] {
+[class^='number-slide'],
+[class*=' number-slide'] {
   background: rgb(0, 0, 0);
   display: flex;
   align-items: left;
@@ -53,8 +58,8 @@ body {
   /* writing-mode: vertical-lr; */
 }
 
-[class^="number-slide"],
-[class*=" number-slide"] > p {
+[class^='number-slide'],
+[class*=' number-slide'] > p {
   writing-mode: vertical-lr;
   text-orientation: sideways;
   padding: 2vw;
@@ -65,7 +70,7 @@ body {
 }
 
 .number-slide1 {
-  background-image: url("./pstr/pstr001.png");
+  background-image: url('./pstr/pstr001.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
@@ -75,7 +80,7 @@ body {
 }
 
 .number-slide2 {
-  background-image: url("./pstr/pstr002.png");
+  background-image: url('./pstr/pstr002.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
@@ -85,7 +90,7 @@ body {
 }
 
 .number-slide3 {
-  background-image: url("./pstr/pstr003.png");
+  background-image: url('./pstr/pstr003.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
@@ -95,7 +100,7 @@ body {
 }
 
 .number-slide4 {
-  background-image: url("./pstr/pstr004.png");
+  background-image: url('./pstr/pstr004.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
@@ -105,7 +110,7 @@ body {
 }
 
 .number-slide5 {
-  background-image: url("./pstr/pstr005.png");
+  background-image: url('./pstr/pstr005.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
@@ -115,7 +120,7 @@ body {
 }
 
 .number-slide6 {
-  background-image: url("./pstr/pstr006.png");
+  background-image: url('./pstr/pstr006.png');
   background-position: center;
   -webkit-background-size: contain;
   -moz-background-size: contain;
