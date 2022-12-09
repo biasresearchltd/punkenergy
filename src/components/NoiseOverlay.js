@@ -18,7 +18,7 @@ export const NoiseOverlay = () => {
         const len = buffer32.length;
 
         for (let i = 0; i < len; i++) {
-          if (Math.random() < 0.0666) {
+          if (Math.random() < 0.2666) {
             buffer32[i] = 0xffffffff;
           }
         }
@@ -67,7 +67,7 @@ export const NoiseOverlay = () => {
             resizeThrottle = window.setTimeout(() => {
               window.clearTimeout(loopTimeout);
               setup();
-            }, 200);
+            }, 500);
           },
           false
         );
@@ -94,11 +94,12 @@ export const NoiseOverlay = () => {
         position: 'fixed',
         top: 0,
         left: 0,
-        height: '100vh',
+        height: '100%',
         width: '100%',
         zIndex: 9999,
         pointerEvents: 'none',
-        opacity: 0.14,
+        opacity: 0.06,
+        transform: 'translateZ(0)',
       }}
     />
   );
