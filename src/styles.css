@@ -55,25 +55,24 @@ body:active {
   font-weight: 500;
   min-height: 50vh;
   max-height: 100vh;
-  font-family: emoji;
+  font-family: 'CMU Typewriter Text';
   width: 100vw;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-  /* writing-mode: vertical-lr; */
 }
 
-[class^='number-slide'],
-[class*=' number-slide'] > p {
-  writing-mode: vertical-lr;
-  text-orientation: sideways;
-  padding: 2vw;
+p {
   font-family: 'CMU Typewriter Text';
   text-transform: uppercase;
-  transform: rotate(-180deg) scaleX(2);
   cursor: pointer;
+}
+
+svg {
+  width: 64px;
+  height: 64px;
+  transform: rotate(90deg) scaleX(.45);
+}
+
+svg:hover {
+  color: red;
 }
 
 .number-slide1 {

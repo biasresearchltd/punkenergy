@@ -1,0 +1,33 @@
+[
+{
+"poster": 1,
+"mintPage": "https://create.zora.co/collections/0x6056d7d72830eec9e72e9969f25f5baa754c1434",
+"gfx": "./pstr/pstr001.png"
+},
+{
+"poster": 2,
+"mintPage": "https://create.zora.co/collections/0xf09b5a90903afc0f6e19437d0e18f9710e7b1d3e",
+"gfx": "./pstr/pstr002.png"
+},
+{
+"poster": 3,
+"mintPage": "https://create.zora.co/collections/0x0797215f34bcf6e3770e48a76d1978a0cf67b6e6",
+"gfx": "./pstr/pstr003.png"
+},
+{
+"poster": 4,
+"mintPage": "https://create.zora.co/collections/0x3462150aff5724e2d74d3118b7ffd6e963536ddd",
+"gfx": "./pstr/pstr004.png"
+},
+{
+"poster": 5,
+"mintPage": "https://create.zora.co/collections/0x892e712e7917c06bf3b73260c7a535ec006512d6",
+"gfx": "./pstr/pstr005.png"
+},
+{
+"poster": 6,
+"mintPage": "https://create.zora.co/collections/0x058905fde701d598a9922751478e9c3c7e19bf16",
+"gfx": "./pstr/pstr006.png"
+}
+
+]

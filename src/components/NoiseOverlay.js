@@ -95,7 +95,7 @@ export const NoiseOverlay = () => {
         width: '100vw',
         zIndex: 9999,
         pointerEvents: 'none',
-        opacity: 0.075,
+        opacity: 0.1666,
         transform: 'translateZ(0)',
       }}
     />
