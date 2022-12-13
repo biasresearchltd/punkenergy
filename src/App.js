@@ -80,15 +80,15 @@ export default function App() {
           bottom="10vh"
           left="0"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="pink"
             borderRadius="36"
             color="darkback"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"
@@ -112,15 +112,15 @@ export default function App() {
           bottom="20vh"
           left="-1vh"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="green"
             borderRadius="36"
             color="darkback"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"
@@ -143,15 +143,15 @@ export default function App() {
           bottom="20vh"
           left="-1vh"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="lightgray"
             borderRadius="36"
             color="darkback"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"
@@ -175,15 +175,15 @@ export default function App() {
           bottom="20vh"
           left="-1vh"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="blue"
             borderRadius="36"
             color="white"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"
@@ -207,15 +207,15 @@ export default function App() {
           bottom="20vh"
           left="-1vh"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="chartreuse"
             borderRadius="36"
             color="orange"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"
@@ -238,15 +238,15 @@ export default function App() {
           bottom="20vh"
           left="-1vh"
           textTransform="uppercase"
-          transform="rotate(-90deg) scaleY(2.2)"
+          transform="rotate(-90deg)"
         >
           <Button
-            
+            transform="scaleY(2.2)"
             flexDirection="row"
             backgroundColor="orange"
             borderRadius="36"
             color="green"
-            fontSize={['3xl','1xl','1xl','2xl']}
+            fontSize={['2xs','xs','md','x-large', '2xl']}
             target="_blank"
             rel="noopener noreferrer"
             variant="button"

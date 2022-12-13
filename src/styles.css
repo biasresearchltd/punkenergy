@@ -66,8 +66,8 @@ p {
 }
 
 svg {
-  width: 64px;
-  height: 64px;
+  width: 3vh;
+  height: 3vw;
   transform: rotate(90deg) scaleX(.45);
 }
 
