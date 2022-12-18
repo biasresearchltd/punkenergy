@@ -83,7 +83,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="pink"
             borderRadius="36"
@@ -115,7 +115,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="green"
             borderRadius="36"
@@ -146,7 +146,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="lightgray"
             borderRadius="36"
@@ -178,7 +178,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="blue"
             borderRadius="36"
@@ -210,7 +210,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="chartreuse"
             borderRadius="36"
@@ -241,7 +241,7 @@ export default function App() {
           transform="rotate(-90deg)"
         >
           <Button
-            transform="scaleY(2.2)"
+            transform="scaleY(2.2) scale(.666)"
             flexDirection="row"
             backgroundColor="orange"
             borderRadius="36"
