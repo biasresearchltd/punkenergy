@@ -136,11 +136,11 @@ svg:hover {
 }
 
 .number-slide7 {
-  background: rgb(0, 0, 0);
-}
-.number-slide8 {
-  background: rgb(0, 0, 0);
-}
-.number-slide9 {
-  background: rgb(0, 0, 0);
+  background-image: url('./pstr/pstr007.png');
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
 }

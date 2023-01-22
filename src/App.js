@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactPlayer from 'react-player';
 import { useKeenSlider } from 'keen-slider/react';
-import { ChakraProvider, Button, Flex, Link, HStack, VStack, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider, Button, Flex, Link, VStack, extendTheme } from '@chakra-ui/react';
 import { Logo } from './components/Logo';
 import 'keen-slider/keen-slider.min.css';
 import './styles.css';
@@ -73,8 +72,6 @@ export default function App() {
         style={{ height: '100vh' }}
       >
         <div className="keen-slider__slide number-slide1">
-        <VStack
-        >
         <Flex
           pos="fixed"
           bottom="10vh"
@@ -104,7 +101,6 @@ export default function App() {
             </Link>
           </Button>
         </Flex>
-        </VStack>
         </div>
         <div className="keen-slider__slide number-slide2">
         <Flex
@@ -259,6 +255,37 @@ export default function App() {
               isExternal
             >
             <p>Poster 006</p>
+            </Link>
+          </Button>
+        </Flex>
+        </div>
+        <div className="keen-slider__slide number-slide7">
+        <Flex
+          pos="fixed"
+          bottom="20vh"
+          left="-1vh"
+          textTransform="uppercase"
+          transform="rotate(-90deg)"
+        >
+          <Button
+            transform="scaleY(2.2) scale(.666)"
+            flexDirection="row"
+            backgroundColor="green"
+            borderRadius="36"
+            color="pink"
+            fontSize={['2xs','xs','md','x-large', '2xl']}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="button"
+            rightIcon={<Zorb />}
+            _hover={ { bg: 'pink', color: 'green' } }
+          >
+            <Link
+              href="https://create.zora.co/collections/0x8b50cb0efe5a278367499c0932e6627048473647"
+              variant="none"
+              isExternal
+            >
+            <p>Poster 007</p>
             </Link>
           </Button>
         </Flex>
