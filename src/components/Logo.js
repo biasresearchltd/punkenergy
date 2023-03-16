@@ -5,7 +5,9 @@ import logo from './Cuberton.gif';
 
 export const Logo = props => {
   
-  return <Box position="fixed" padding="0" top="0" right="0" zIndex="9">
-	<Link href="https://www.ppuunnkk.com" target="_blank"><img src={logo} alt="Animated JIF"  width="100vw" /></Link>
+  return <Box h="72px" w="72px" zIndex="9">
+	<Link href="https://www.ppuunnkk.com" target="_blank">
+  <Image src={logo} alt="Animated JIF" height="72px" width="72px"/>
+  </Link>
   </Box>;
 };

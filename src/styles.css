@@ -26,9 +26,9 @@
   user-select: none;
 }
 
-body {
+html, body {
   margin: 0;
-  background: rgb(0, 0, 0);
+  background-color: black !important;
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -42,11 +42,15 @@ body:active {
 .keen-slider__slide {
   background-size: contain;
   max-height: 90vh;
+  cursor: grab;
+}
+
+.keen-slider__slide:active {
+  cursor: grabbing;
 }
 
 [class^='number-slide'],
 [class*=' number-slide'] {
-  background: rgb(0, 0, 0);
   display: flex;
   align-items: left;
   justify-content: left;
@@ -57,6 +61,7 @@ body:active {
   max-height: 100vh;
   font-family: 'CMU Typewriter Text';
   width: 100vw;
+  z-index: 9;
 }
 
 p {

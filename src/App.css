@@ -1,0 +1,44 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #192717;
+}
+
+.keen-slider {
+  margin: 0;
+  padding: 0;
+}
+
+.keen-slider__slide {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+img {
+  z-index: 999;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.horizontal-slider {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
