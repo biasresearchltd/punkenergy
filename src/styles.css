@@ -149,3 +149,13 @@ svg:hover {
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+.number-slide8 {
+  background-image: url('./pstr/pstr008.png');
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+}

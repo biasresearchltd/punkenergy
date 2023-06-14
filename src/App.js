@@ -84,6 +84,12 @@ const posters = [
 	hoverColor: 'pink',
 	href: 'https://create.zora.co/collections/0x8b50cb0efe5a278367499c0932e6627048473647',
   },
+  {
+	id: 8,
+	backgroundColor: 'orange',
+	hoverColor: 'pink',
+	href: 'https://zora.co/collect/eth:0x67524c0d89d02bdf6ddff96125d785a666f810dc',
+  },
 ];
 
 
@@ -394,6 +400,37 @@ useEffect(() => {
 			  isExternal
 			>
 			<p>Poster 007</p>
+			</Link>
+		  </Button>
+		</Flex>
+		</div>
+		<div className="keen-slider__slide number-slide8">
+		<Flex
+		  pos="fixed"
+		  bottom="20vh"
+		  left="-1vh"
+		  textTransform="uppercase"
+		  transform="rotate(-90deg)"
+		>
+		  <Button
+			transform="scaleY(2.2) scale(.666)"
+			flexDirection="row"
+			backgroundColor="orange"
+			borderRadius="36"
+			color="chartreuse"
+			fontSize={['2xs','xs','md','x-large', '2xl']}
+			target="_blank"
+			rel="noopener noreferrer"
+			variant="button"
+			rightIcon={<Zorb />}
+			_hover={ { bg: 'chartreuse', color: 'pink' } }
+		  >
+			<Link
+			  href="https://zora.co/collect/eth:0x67524c0d89d02bdf6ddff96125d785a666f810dc"
+			  variant="none"
+			  isExternal
+			>
+			<p>Poster 008</p>
 			</Link>
 		  </Button>
 		</Flex>
