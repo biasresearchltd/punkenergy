@@ -159,3 +159,33 @@ svg:hover {
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+.number-slide9 {
+  background-image: url('./pstr/pstr009.png');
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.number-slide10 {
+  background-image: url('./pstr/pstr010.png');
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.number-slide11 {
+  background-image: url('./pstr/pstr011.png');
+  background-position: center;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
