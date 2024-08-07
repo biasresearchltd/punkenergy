@@ -73,7 +73,7 @@ p {
 svg {
   width: 3vh;
   height: 3vw;
-  transform: rotate(90deg) scaleX(.45);
+  /* transform: rotate(90deg) scaleX(.45); */
 }
 
 svg:hover {
