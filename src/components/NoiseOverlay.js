@@ -7,8 +7,8 @@ export const NoiseOverlay = () => {
   useEffect(() => {
     const greyCanvas = greyCanvasRef.current;
     const darkCanvas = darkCanvasRef.current;
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
     const greyCtx = greyCanvas.getContext('2d');
     const darkCtx = darkCanvas.getContext('2d');
     let noiseData = [];
@@ -17,6 +17,10 @@ export const NoiseOverlay = () => {
     let animationRequestId;
     let resizeThrottle;
 
+    // Determine the grain size based on the screen size
+    const isMobile = width <= 768;
+    const grainSize = isMobile ? 2 : 1;
+
     const createNoise = () => {
       const greyData = greyCtx.createImageData(width, height);
       const darkData = darkCtx.createImageData(width, height);
@@ -24,7 +28,7 @@ export const NoiseOverlay = () => {
       const darkBuffer32 = new Uint32Array(darkData.data.buffer);
       const len = greyBuffer32.length;
 
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < len; i += grainSize) {
         const randomValue = Math.random();
         if (randomValue < 0.0666) {
           greyBuffer32[i] = 0xffffffff; // white
@@ -71,10 +75,14 @@ export const NoiseOverlay = () => {
     };
 
     const handleResize = () => {
-      greyCanvas.width = window.innerWidth;
-      greyCanvas.height = window.innerHeight;
-      darkCanvas.width = window.innerWidth;
-      darkCanvas.height = window.innerHeight;
+      width = window.innerWidth;
+      height = window.innerHeight;
+      greyCanvas.width = width;
+      greyCanvas.height = height;
+      darkCanvas.width = width;
+      darkCanvas.height = height;
+      noiseData = [];
+      init();
     };
 
     window.addEventListener('resize', handleResize);
