@@ -1,13 +1,10 @@
-import React from 'react';
-import { Box, Image, Link } from '@chakra-ui/react';
-import logo from './Cuberton.gif';
+import React from 'react'
+import logo from './Cuberton.gif'
 
-
-export const Logo = props => {
-  
-  return <Box h="72px" w="72px" zIndex="9">
-	<Link href="https://www.ppuunnkk.com" target="_blank">
-  <Image src={logo} alt="Animated JIF" height="72px" width="72px"/>
-  </Link>
-  </Box>;
-};
+export const Logo = () => {
+  return (
+    <a href="https://www.ppuunnkk.com" target="_blank" rel="noopener noreferrer">
+      <img src={logo} alt="Cuberton" height="72" width="72" style={{ display: 'block' }} />
+    </a>
+  )
+}

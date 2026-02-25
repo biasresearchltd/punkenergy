@@ -44,7 +44,49 @@ body:active {
 p {
   font-family: 'CMU Typewriter Text';
   text-transform: uppercase;
-  cursor: pointer;
+  cursor: default;
+}
+
+/* Poster Button */
+
+.poster-button {
+  position: fixed;
+  bottom: 20vh;
+  left: -1vh;
+  transform: rotate(-90deg);
+  text-transform: uppercase;
+  z-index: 10;
+  background-color: var(--bg);
+  color: #192817;
+  border: none;
+  border-radius: 36px;
+  padding: 2px 14px;
+  font-size: clamp(0.6rem, 1.5vw, 1.5rem);
+  font-family: 'CMU Typewriter Text', monospace;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.poster-button p {
+  margin: 0;
+}
+
+.poster-button:hover {
+  background-color: var(--hover-bg);
+  color: var(--bg);
+}
+
+/* Top Right */
+
+.top-right {
+  position: fixed;
+  top: 1vh;
+  right: 1vw;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 svg {

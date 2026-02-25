@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
+const FRAME_COUNT = 20
+
 export const NoiseOverlay = () => {
   const greyCanvasRef = useRef(null)
   const darkCanvasRef = useRef(null)
@@ -7,21 +9,15 @@ export const NoiseOverlay = () => {
   useEffect(() => {
     const greyCanvas = greyCanvasRef.current
     const darkCanvas = darkCanvasRef.current
-    // Cap DPI scaling at 2 for performance
-    const dpr = Math.min(window.devicePixelRatio || 1, 2)
-    let width = Math.round(window.innerWidth * dpr)
-    let height = Math.round(window.innerHeight * dpr)
+    let width = window.innerWidth
+    let height = window.innerHeight
     const greyCtx = greyCanvas.getContext('2d')
     const darkCtx = darkCanvas.getContext('2d')
-    let noiseFrames = []
-    let rafId
-    let lastTime = 0
-    const baseInterval = 50
-    let nextInterval = baseInterval
-    const FRAME_COUNT = 30
+    let frames = []
+    let timer
 
     const generateFrames = () => {
-      noiseFrames = []
+      frames = []
       for (let f = 0; f < FRAME_COUNT; f++) {
         const greyData = greyCtx.createImageData(width, height)
         const darkData = darkCtx.createImageData(width, height)
@@ -37,21 +33,15 @@ export const NoiseOverlay = () => {
           }
         }
 
-        noiseFrames.push({ grey: greyData, dark: darkData })
+        frames.push({ grey: greyData, dark: darkData })
       }
     }
 
-    const loop = (timestamp) => {
-      rafId = requestAnimationFrame(loop)
-
-      if (timestamp - lastTime < nextInterval) return
-      lastTime = timestamp
-      nextInterval = baseInterval + Math.random() * 30 - 15
-
-      // Random frame selection — no sequential pattern to detect
-      const idx = (Math.random() * FRAME_COUNT) | 0
-      greyCtx.putImageData(noiseFrames[idx].grey, 0, 0)
-      darkCtx.putImageData(noiseFrames[idx].dark, 0, 0)
+    const loop = () => {
+      const idx = Math.floor(Math.random() * FRAME_COUNT)
+      greyCtx.putImageData(frames[idx].grey, 0, 0)
+      darkCtx.putImageData(frames[idx].dark, 0, 0)
+      timer = setTimeout(loop, 50 + Math.random() * 30)
     }
 
     const init = () => {
@@ -60,29 +50,25 @@ export const NoiseOverlay = () => {
       darkCanvas.width = width
       darkCanvas.height = height
       generateFrames()
-      rafId = requestAnimationFrame(loop)
+      greyCtx.putImageData(frames[0].grey, 0, 0)
+      darkCtx.putImageData(frames[0].dark, 0, 0)
+      timer = setTimeout(loop, 60)
     }
 
     init()
 
     const handleResize = () => {
-      cancelAnimationFrame(rafId)
-      const newDpr = Math.min(window.devicePixelRatio || 1, 2)
-      width = Math.round(window.innerWidth * newDpr)
-      height = Math.round(window.innerHeight * newDpr)
-      greyCanvas.width = width
-      greyCanvas.height = height
-      darkCanvas.width = width
-      darkCanvas.height = height
-      generateFrames()
-      rafId = requestAnimationFrame(loop)
+      clearTimeout(timer)
+      width = window.innerWidth
+      height = window.innerHeight
+      init()
     }
 
     window.addEventListener('resize', handleResize)
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      cancelAnimationFrame(rafId)
+      clearTimeout(timer)
     }
   }, [])
 
@@ -102,7 +88,6 @@ export const NoiseOverlay = () => {
           opacity: 0.12,
           transform: 'translateZ(0)',
           mixBlendMode: 'screen',
-          filter: 'blur(.2px)',
         }}
       />
       <canvas
@@ -119,7 +104,6 @@ export const NoiseOverlay = () => {
           opacity: 0.3,
           transform: 'translateZ(0)',
           mixBlendMode: 'overlay',
-          filter: 'blur(.3px)',
         }}
       />
     </>
