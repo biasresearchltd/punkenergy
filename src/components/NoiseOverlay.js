@@ -1,99 +1,90 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react'
 
 export const NoiseOverlay = () => {
-  const greyCanvasRef = useRef(null);
-  const darkCanvasRef = useRef(null);
+  const greyCanvasRef = useRef(null)
+  const darkCanvasRef = useRef(null)
 
   useEffect(() => {
-    const greyCanvas = greyCanvasRef.current;
-    const darkCanvas = darkCanvasRef.current;
-    let width = window.innerWidth;
-    let height = window.innerHeight;
-    const greyCtx = greyCanvas.getContext('2d');
-    const darkCtx = darkCanvas.getContext('2d');
-    let noiseData = [];
-    let frame = 0;
-    let loopTimeout;
-    let animationRequestId;
-    let resizeThrottle;
+    const greyCanvas = greyCanvasRef.current
+    const darkCanvas = darkCanvasRef.current
+    // Cap DPI scaling at 2 for performance
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
+    let width = Math.round(window.innerWidth * dpr)
+    let height = Math.round(window.innerHeight * dpr)
+    const greyCtx = greyCanvas.getContext('2d')
+    const darkCtx = darkCanvas.getContext('2d')
+    let noiseFrames = []
+    let rafId
+    let lastTime = 0
+    const baseInterval = 50
+    let nextInterval = baseInterval
+    const FRAME_COUNT = 30
 
-    // Determine the grain size based on the screen size
-    const isMobile = width <= 768;
-    const grainSize = isMobile ? 2 : 1;
+    const generateFrames = () => {
+      noiseFrames = []
+      for (let f = 0; f < FRAME_COUNT; f++) {
+        const greyData = greyCtx.createImageData(width, height)
+        const darkData = darkCtx.createImageData(width, height)
+        const greyBuf = new Uint32Array(greyData.data.buffer)
+        const darkBuf = new Uint32Array(darkData.data.buffer)
+        const len = greyBuf.length
 
-    const createNoise = () => {
-      const greyData = greyCtx.createImageData(width, height);
-      const darkData = darkCtx.createImageData(width, height);
-      const greyBuffer32 = new Uint32Array(greyData.data.buffer);
-      const darkBuffer32 = new Uint32Array(darkData.data.buffer);
-      const len = greyBuffer32.length;
-
-      for (let i = 0; i < len; i += grainSize) {
-        const randomValue = Math.random();
-        if (randomValue < 0.0666) {
-          greyBuffer32[i] = 0xffffffff; // white
-        } else if (randomValue < 0.1666) {
-          darkBuffer32[i] = 0xff000000; // black
+        for (let i = 0; i < len; i++) {
+          if (Math.random() < 0.5) {
+            greyBuf[i] = 0xffffffff
+          } else {
+            darkBuf[i] = 0xff000000
+          }
         }
+
+        noiseFrames.push({ grey: greyData, dark: darkData })
       }
+    }
 
-      noiseData.push({ grey: greyData, dark: darkData });
-    };
+    const loop = (timestamp) => {
+      rafId = requestAnimationFrame(loop)
 
-    const paintNoise = () => {
-      if (frame === 9) {
-        frame = 0;
-      } else {
-        frame++;
-      }
+      if (timestamp - lastTime < nextInterval) return
+      lastTime = timestamp
+      nextInterval = baseInterval + Math.random() * 30 - 15
 
-      greyCtx.putImageData(noiseData[frame].grey, 0, 0);
-      darkCtx.putImageData(noiseData[frame].dark, 0, 0);
-    };
-
-    const loop = () => {
-      paintNoise(frame);
-
-      frame = (frame + 1) % 10; // wrap around after 10 frames
-
-      loopTimeout = window.setTimeout(() => {
-        loop();
-      }, 41.6667);
-    };
+      // Random frame selection — no sequential pattern to detect
+      const idx = (Math.random() * FRAME_COUNT) | 0
+      greyCtx.putImageData(noiseFrames[idx].grey, 0, 0)
+      darkCtx.putImageData(noiseFrames[idx].dark, 0, 0)
+    }
 
     const init = () => {
-      greyCanvas.width = width;
-      greyCanvas.height = height;
-      darkCanvas.width = width;
-      darkCanvas.height = height;
+      greyCanvas.width = width
+      greyCanvas.height = height
+      darkCanvas.width = width
+      darkCanvas.height = height
+      generateFrames()
+      rafId = requestAnimationFrame(loop)
+    }
 
-      for (let i = 0; i < 10; i++) {
-        createNoise();
-      }
-
-      loop();
-    };
+    init()
 
     const handleResize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      greyCanvas.width = width;
-      greyCanvas.height = height;
-      darkCanvas.width = width;
-      darkCanvas.height = height;
-      noiseData = [];
-      init();
-    };
+      cancelAnimationFrame(rafId)
+      const newDpr = Math.min(window.devicePixelRatio || 1, 2)
+      width = Math.round(window.innerWidth * newDpr)
+      height = Math.round(window.innerHeight * newDpr)
+      greyCanvas.width = width
+      greyCanvas.height = height
+      darkCanvas.width = width
+      darkCanvas.height = height
+      generateFrames()
+      rafId = requestAnimationFrame(loop)
+    }
 
-    window.addEventListener('resize', handleResize);
-
-    init();
+    window.addEventListener('resize', handleResize)
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.clearTimeout(loopTimeout);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+      cancelAnimationFrame(rafId)
+    }
+  }, [])
 
   return (
     <>
@@ -108,10 +99,10 @@ export const NoiseOverlay = () => {
           width: '100vw',
           zIndex: 8,
           pointerEvents: 'none',
-          opacity: 0.266,
+          opacity: 0.12,
           transform: 'translateZ(0)',
           mixBlendMode: 'screen',
-          filter: 'blur(.366px)',
+          filter: 'blur(.2px)',
         }}
       />
       <canvas
@@ -125,12 +116,12 @@ export const NoiseOverlay = () => {
           width: '100vw',
           zIndex: 9999,
           pointerEvents: 'none',
-          opacity: 0.666,
+          opacity: 0.3,
           transform: 'translateZ(0)',
           mixBlendMode: 'overlay',
-          filter: 'blur(.666px)',
+          filter: 'blur(.3px)',
         }}
       />
     </>
-  );
-};
+  )
+}

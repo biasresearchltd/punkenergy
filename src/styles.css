@@ -33,35 +33,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   cursor: grab;
+  overflow: hidden;
+  touch-action: none;
 }
 
 body:active {
   cursor: grabbing;
-}
-
-.keen-slider__slide {
-  background-size: contain;
-  max-height: 90vh;
-  cursor: grab;
-}
-
-.keen-slider__slide:active {
-  cursor: grabbing;
-}
-
-[class^='number-slide'],
-[class*=' number-slide'] {
-  display: flex;
-  align-items: left;
-  justify-content: left;
-  font-size: 1.666em;
-  color: #fff;
-  font-weight: 500;
-  min-height: 50vh;
-  max-height: 100vh;
-  font-family: 'CMU Typewriter Text';
-  width: 100vw;
-  z-index: 9;
 }
 
 p {
@@ -73,119 +50,42 @@ p {
 svg {
   width: 3vh;
   height: 3vw;
-  /* transform: rotate(90deg) scaleX(.45); */
 }
 
 svg:hover {
   color: red;
 }
 
-.number-slide1 {
-  background-image: url('./pstr/pstr001.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
+/* Infinite Grid */
+
+.infinite-grid-viewport {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  z-index: 1;
 }
 
-.number-slide2 {
-  background-image: url('./pstr/pstr002.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
+.infinite-grid-viewport:active {
+  cursor: grabbing;
 }
 
-.number-slide3 {
-  background-image: url('./pstr/pstr003.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
+.infinite-grid-mover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
 }
 
-.number-slide4 {
-  background-image: url('./pstr/pstr004.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
+.grid-tile {
+  position: absolute;
+  height: 100vh;
+  background-color: black;
   background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide5 {
-  background-image: url('./pstr/pstr005.png');
   background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide6 {
-  background-image: url('./pstr/pstr006.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide7 {
-  background-image: url('./pstr/pstr007.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide8 {
-  background-image: url('./pstr/pstr008.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide9 {
-  background-image: url('./pstr/pstr009.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide10 {
-  background-image: url('./pstr/pstr010.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.number-slide11 {
-  background-image: url('./pstr/pstr011.png');
-  background-position: center;
-  -webkit-background-size: contain;
-  -moz-background-size: contain;
-  -o-background-size: contain;
-  background-size: contain;
   background-repeat: no-repeat;
 }
