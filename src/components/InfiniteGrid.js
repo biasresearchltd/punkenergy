@@ -428,7 +428,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
       clearTimeout(wheelTimeoutRef.current)
       clearTimeout(wheelMagnetTimeoutRef.current)
     }
-  }, [cancelAnimation, updateTransform, checkTileRecycle, snapToNearest, startMomentum])
+  }, [cancelAnimation, updateTransform, checkTileRecycle, snapToNearest, startMomentum, startCoast, startSlowDrift, reportCurrentPoster])
 
   // Apply centered transform and report poster on mount
   useEffect(() => {

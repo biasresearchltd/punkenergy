@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, Flex } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 import { Logo } from './Logo';
 import PunkIcon from "./Icon";
 
