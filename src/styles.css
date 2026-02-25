@@ -55,16 +55,28 @@ p {
   left: -1vh;
   transform: rotate(-90deg);
   text-transform: uppercase;
-  z-index: 10;
-  background-color: var(--bg);
-  color: #192817;
-  border: none;
+  z-index: 10000;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.12) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: var(--bg);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 36px;
-  padding: 2px 14px;
+  padding: 8px 12px;
   font-size: clamp(0.6rem, 1.5vw, 1.5rem);
   font-family: 'CMU Typewriter Text', monospace;
   cursor: default;
   white-space: nowrap;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
 .poster-button p {
@@ -72,8 +84,17 @@ p {
 }
 
 .poster-button:hover {
-  background-color: var(--hover-bg);
-  color: var(--bg);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
 /* Top Right */
