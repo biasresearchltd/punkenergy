@@ -188,10 +188,7 @@ svg:hover {
 
 .infinite-grid-viewport {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   overflow: hidden;
   cursor: grab;
   touch-action: none;
