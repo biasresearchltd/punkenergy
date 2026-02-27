@@ -185,7 +185,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
 
     isAnimatingRef.current = true
     animFrameRef.current = requestAnimationFrame(springFrame)
-  }, [updateGrid, reportCurrentPoster])
+  }, [updateGrid])
 
   // Friction-only coast for scroll wheel
   const startCoast = useCallback(() => {
@@ -216,7 +216,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
 
     isAnimatingRef.current = true
     animFrameRef.current = requestAnimationFrame(coastFrame)
-  }, [updateGrid, reportCurrentPoster])
+  }, [updateGrid])
 
   // Slow drift to nearest poster — takes ~2 seconds
   const startSlowDrift = useCallback(() => {
@@ -254,7 +254,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
 
     isAnimatingRef.current = true
     animFrameRef.current = requestAnimationFrame(driftFrame)
-  }, [updateGrid, reportCurrentPoster])
+  }, [updateGrid])
 
   const snapToNearest = useCallback(() => {
     velocityRef.current = { x: 0, y: 0 }
