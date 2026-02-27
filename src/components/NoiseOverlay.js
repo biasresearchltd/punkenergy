@@ -79,7 +79,10 @@ export const NoiseOverlay = () => {
         id="grey-noise"
         style={{
           position: 'fixed',
-          inset: 0,
+          top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+          left: 'calc(-1 * env(safe-area-inset-left, 0px))',
+          right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+          bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
           zIndex: 8,
           pointerEvents: 'none',
           opacity: 0.12,
@@ -92,7 +95,10 @@ export const NoiseOverlay = () => {
         id="dark-noise"
         style={{
           position: 'fixed',
-          inset: 0,
+          top: 'calc(-1 * env(safe-area-inset-top, 0px))',
+          left: 'calc(-1 * env(safe-area-inset-left, 0px))',
+          right: 'calc(-1 * env(safe-area-inset-right, 0px))',
+          bottom: 'calc(-1 * env(safe-area-inset-bottom, 0px))',
           zIndex: 9999,
           pointerEvents: 'none',
           opacity: 0.3,
