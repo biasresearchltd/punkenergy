@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import TopRight from './components/TopRight'
 import InfiniteGrid from './components/InfiniteGrid'
 import { posters, posterImages } from './postersData'
@@ -15,13 +15,14 @@ export const colors = {
   darkback: '#192817',
 }
 
-const PosterButton = ({ backgroundColor, hoverColor, text }) => (
+const PosterButton = ({ backgroundColor, hoverColor, text, onClick }) => (
   <div
     className="poster-button"
     style={{
       '--bg': colors[backgroundColor] || backgroundColor,
       '--hover-bg': colors[hoverColor] || hoverColor,
     }}
+    onClick={onClick}
   >
     <p style={{ transform: 'scaleY(2.4) scale(.666)' }}>{text}</p>
   </div>
@@ -33,10 +34,29 @@ const formatPosterNumber = (number) => {
 
 export default function App() {
   const [currentPoster, setCurrentPoster] = useState(posters[0])
+  const [blurbOpen, setBlurbOpen] = useState(false)
+  const pillRef = useRef(null)
+  const panelRef = useRef(null)
 
   const handlePosterChange = useCallback((poster) => {
     setCurrentPoster(poster)
+    setBlurbOpen(false)
   }, [])
+
+  useEffect(() => {
+    if (!blurbOpen) return
+    function handleClickOutside(e) {
+      if (pillRef.current && pillRef.current.contains(e.target)) return
+      if (panelRef.current && panelRef.current.contains(e.target)) return
+      setBlurbOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('touchstart', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('touchstart', handleClickOutside)
+    }
+  }, [blurbOpen])
 
   return (
     <>
@@ -46,11 +66,21 @@ export default function App() {
         posterImages={posterImages}
         onPosterChange={handlePosterChange}
       />
-      <PosterButton
-        backgroundColor={currentPoster.backgroundColor}
-        hoverColor={currentPoster.hoverColor}
-        text={`Poster ${formatPosterNumber(currentPoster.id)}`}
-      />
+      <div ref={pillRef}>
+        <PosterButton
+          backgroundColor={currentPoster.backgroundColor}
+          hoverColor={currentPoster.hoverColor}
+          text={`Poster ${formatPosterNumber(currentPoster.id)}`}
+          onClick={() => setBlurbOpen(prev => !prev)}
+        />
+      </div>
+      <div
+        ref={panelRef}
+        className={`blurb-panel${blurbOpen ? ' blurb-panel--open' : ''}`}
+        style={{ '--bg': colors[currentPoster.backgroundColor] || currentPoster.backgroundColor }}
+      >
+        <p>{currentPoster.blurb || 'No description yet.'}</p>
+      </div>
       <NoiseOverlay />
     </>
   )
