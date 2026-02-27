@@ -79,10 +79,7 @@ export const NoiseOverlay = () => {
         id="grey-noise"
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
-          width: '100vw',
+          inset: 0,
           zIndex: 8,
           pointerEvents: 'none',
           opacity: 0.12,
@@ -95,10 +92,7 @@ export const NoiseOverlay = () => {
         id="dark-noise"
         style={{
           position: 'fixed',
-          top: 0,
-          left: 0,
-          height: '100vh',
-          width: '100vw',
+          inset: 0,
           zIndex: 9999,
           pointerEvents: 'none',
           opacity: 0.3,
