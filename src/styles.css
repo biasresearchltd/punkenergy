@@ -211,9 +211,19 @@ svg:hover {
 
 .grid-tile {
   position: absolute;
-  height: 100vh;
   background-color: black;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+/* Mobile portrait — poster fills viewport width */
+@media (max-aspect-ratio: 3/4) {
+  .poster-button {
+    left: -48px;
+  }
+
+  .blurb-panel {
+    left: 24px;
+  }
 }
