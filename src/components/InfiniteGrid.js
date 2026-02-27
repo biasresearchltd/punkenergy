@@ -50,16 +50,20 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   const lastPosterIdRef = useRef(null)
 
   // Viewport and cell dimensions
+  const initVw = typeof window !== 'undefined' ? window.innerWidth : 1000
+  const initVh = typeof window !== 'undefined' ? window.innerHeight : 1000
+  const initCellW = Math.min(initVw, initVh * POSTER_ASPECT)
   const viewportRef = useRef({
-    vw: typeof window !== 'undefined' ? window.innerWidth : 1000,
-    vh: typeof window !== 'undefined' ? window.innerHeight : 1000,
-    cellW: typeof window !== 'undefined' ? window.innerHeight * POSTER_ASPECT : 750,
+    vw: initVw,
+    vh: initVh,
+    cellW: initCellW,
+    cellH: initCellW / POSTER_ASPECT,
   })
 
   // Imperatively update tile positions and images — synchronous, no React render
   const updateTiles = useCallback(() => {
-    const { cellW, vh } = viewportRef.current
-    const centerRow = Math.round(offsetRef.current.y / vh)
+    const { cellW, cellH } = viewportRef.current
+    const centerRow = Math.round(offsetRef.current.y / cellH)
     const centerCol = Math.round(offsetRef.current.x / cellW)
 
     // Skip if center hasn't changed
@@ -78,8 +82,9 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
         const el = tileEls.current[i]
         if (el) {
           el.style.left = `${col * cellW}px`
-          el.style.top = `${row * vh}px`
+          el.style.top = `${row * cellH}px`
           el.style.width = `${cellW}px`
+          el.style.height = `${cellH}px`
           el.style.backgroundImage = `url(${posterImages[posters[idx].id]})`
         }
         i++
@@ -97,8 +102,8 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   }, [])
 
   const reportCurrentPoster = useCallback(() => {
-    const { cellW, vh } = viewportRef.current
-    const row = Math.round(offsetRef.current.y / vh)
+    const { cellW, cellH } = viewportRef.current
+    const row = Math.round(offsetRef.current.y / cellH)
     const col = Math.round(offsetRef.current.x / cellW)
     const idx = mod(row + col, posters.length)
     const posterId = posters[idx].id
@@ -131,7 +136,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     function springFrame() {
       if (!isAnimatingRef.current) return
 
-      const { cellW, vh } = viewportRef.current
+      const { cellW, cellH } = viewportRef.current
 
       velocityRef.current.x = Math.max(-maxVel, Math.min(maxVel, velocityRef.current.x)) * friction
       velocityRef.current.y = Math.max(-maxVel, Math.min(maxVel, velocityRef.current.y)) * friction
@@ -154,7 +159,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
 
       targetRef.current = {
         x: Math.round(offsetRef.current.x / cellW) * cellW,
-        y: Math.round(offsetRef.current.y / vh) * vh,
+        y: Math.round(offsetRef.current.y / cellH) * cellH,
       }
 
       const dx = targetRef.current.x - offsetRef.current.x
@@ -226,11 +231,11 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     function driftFrame() {
       if (!isAnimatingRef.current) return
 
-      const { cellW, vh } = viewportRef.current
+      const { cellW, cellH } = viewportRef.current
 
       targetRef.current = {
         x: Math.round(offsetRef.current.x / cellW) * cellW,
-        y: Math.round(offsetRef.current.y / vh) * vh,
+        y: Math.round(offsetRef.current.y / cellH) * cellH,
       }
 
       const dx = targetRef.current.x - offsetRef.current.x
@@ -396,19 +401,21 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
 
     function handleResize() {
       const oldCellW = viewportRef.current.cellW
-      const oldVh = viewportRef.current.vh
+      const oldCellH = viewportRef.current.cellH
 
       const currentCol = Math.round(offsetRef.current.x / oldCellW)
-      const currentRow = Math.round(offsetRef.current.y / oldVh)
+      const currentRow = Math.round(offsetRef.current.y / oldCellH)
 
+      const newCellW = Math.min(window.innerWidth, window.innerHeight * POSTER_ASPECT)
       viewportRef.current = {
         vw: window.innerWidth,
         vh: window.innerHeight,
-        cellW: window.innerHeight * POSTER_ASPECT,
+        cellW: newCellW,
+        cellH: newCellW / POSTER_ASPECT,
       }
 
       offsetRef.current.x = currentCol * viewportRef.current.cellW
-      offsetRef.current.y = currentRow * viewportRef.current.vh
+      offsetRef.current.y = currentRow * viewportRef.current.cellH
       velocityRef.current = { x: 0, y: 0 }
 
       cancelAnimation()
