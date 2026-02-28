@@ -46,6 +46,9 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   // Last known center cell — to avoid redundant tile updates
   const lastCenterRef = useRef({ row: 0, col: 0 })
 
+  // Track each tile's current poster id to skip redundant backgroundImage writes
+  const tilePosterRef = useRef(new Array(TILE_COUNT).fill(null))
+
   // Last reported poster id — to avoid redundant onPosterChange calls
   const lastPosterIdRef = useRef(null)
 
@@ -79,13 +82,17 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
         const row = centerRow + dr
         const col = centerCol + dc
         const idx = mod(row + col, posters.length)
+        const posterId = posters[idx].id
         const el = tileEls.current[i]
         if (el) {
           el.style.left = `${col * cellW}px`
           el.style.top = `${row * cellH}px`
           el.style.width = `${cellW}px`
           el.style.height = `${cellH}px`
-          el.style.backgroundImage = `url(${posterImages[posters[idx].id]})`
+          if (tilePosterRef.current[i] !== posterId) {
+            tilePosterRef.current[i] = posterId
+            el.style.backgroundImage = `url(${posterImages[posterId]})`
+          }
         }
         i++
       }
