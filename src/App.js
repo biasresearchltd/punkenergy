@@ -3,7 +3,11 @@ import TopRight from './components/TopRight'
 import InfiniteGrid from './components/InfiniteGrid'
 import { posters, posterImages } from './postersData'
 import { NoiseOverlay } from './components/NoiseOverlay'
+import { CSSGrainOverlay } from './components/CSSGrainOverlay'
 import './styles.css'
+
+// Grain mode: 'canvas' (original) | 'css' (pre-baked PNG, zero JS)
+const GRAIN_MODE = 'css'
 
 export const colors = {
   green: '#00FF46',
@@ -81,7 +85,8 @@ export default function App() {
       >
         <p>{currentPoster.blurb || 'No description yet.'}</p>
       </div>
-      <NoiseOverlay />
+      {GRAIN_MODE === 'canvas' && <NoiseOverlay />}
+      {GRAIN_MODE === 'css' && <CSSGrainOverlay />}
     </>
   )
 }

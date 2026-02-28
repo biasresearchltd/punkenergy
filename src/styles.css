@@ -217,6 +217,64 @@ svg:hover {
   background-repeat: no-repeat;
 }
 
+/* CSS Grain Overlay */
+
+.css-grain-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8;
+}
+
+.css-grain-overlay::before,
+.css-grain-overlay::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+}
+
+.css-grain-overlay::before {
+  background: url('./assets/noise-light.png') repeat;
+  opacity: 0.12;
+  mix-blend-mode: screen;
+  animation: grain1 8s steps(10) infinite;
+}
+
+.css-grain-overlay::after {
+  background: url('./assets/noise-dark.png') repeat;
+  opacity: 0.3;
+  mix-blend-mode: overlay;
+  z-index: 9999;
+  animation: grain2 6s steps(8) infinite;
+}
+
+@keyframes grain1 {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -8%); }
+  20% { transform: translate(-12%, 5%); }
+  30% { transform: translate(7%, -15%); }
+  40% { transform: translate(-5%, 12%); }
+  50% { transform: translate(-10%, 8%); }
+  60% { transform: translate(12%, 0%); }
+  70% { transform: translate(0%, 10%); }
+  80% { transform: translate(3%, 15%); }
+  90% { transform: translate(-8%, 6%); }
+}
+
+@keyframes grain2 {
+  0%, 100% { transform: translate(0, 0); }
+  12% { transform: translate(6%, -5%); }
+  25% { transform: translate(-10%, 12%); }
+  37% { transform: translate(5%, -15%); }
+  50% { transform: translate(-7%, 8%); }
+  62% { transform: translate(10%, -10%); }
+  75% { transform: translate(-3%, 15%); }
+  87% { transform: translate(8%, -6%); }
+}
+
 /* Mobile portrait — poster fills viewport width */
 @media (max-aspect-ratio: 3/4) {
   .poster-button {
