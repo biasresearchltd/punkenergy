@@ -209,12 +209,21 @@ svg:hover {
   will-change: transform;
 }
 
+
 .grid-tile {
   position: absolute;
+  overflow: hidden;
   background-color: black;
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+  contain: layout style paint;
+}
+
+.grid-tile img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
 }
 
 /* CSS Grain Overlay */

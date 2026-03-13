@@ -1,58 +1,59 @@
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect, useCallback, useState } from 'react'
 
 function mod(n, m) {
   return ((n % m) + m) % m
 }
 
-// Poster aspect ratio (width / height) — all posters are 3:4
 const POSTER_ASPECT = 3 / 4
 
-// Tile pool: 7 columns x 5 rows = 35 tiles — large buffer for fast scrolling
-const TILE_COLS = 7
-const TILE_ROWS = 5
-const TILE_COUNT = TILE_COLS * TILE_ROWS
+function computeTileCounts() {
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const cellW = Math.min(vw, vh * POSTER_ASPECT)
+  const cellH = cellW / POSTER_ASPECT
+  let cols = Math.max(5, Math.ceil(vw / cellW) + 4)
+  let rows = Math.max(3, Math.ceil(vh / cellH) + 2)
+  if (cols % 2 === 0) cols++
+  if (rows % 2 === 0) rows++
+  return { tileCols: cols, tileRows: rows }
+}
 
 export default function InfiniteGrid({ posters, posterImages, onPosterChange }) {
+  const [{ tileCols, tileRows }, setTileCounts] = useState(computeTileCounts)
+  const tileCount = tileCols * tileRows
+  const halfC = Math.floor(tileCols / 2)
+  const halfR = Math.floor(tileRows / 2)
+
   const containerRef = useRef(null)
-  const moverRef = useRef(null)
+  const moverEvenRef = useRef(null)
+  const moverOddRef = useRef(null)
   const tileEls = useRef([])
 
-  // Continuous pixel offsets in refs (no re-render per pixel)
   const offsetRef = useRef({ x: 0, y: 0 })
   const velocityRef = useRef({ x: 0, y: 0 })
   const targetRef = useRef({ x: 0, y: 0 })
 
-  // Animation state
   const animFrameRef = useRef(null)
   const isAnimatingRef = useRef(false)
 
-  // Wheel debounce
   const wheelTimeoutRef = useRef(null)
   const wheelMagnetTimeoutRef = useRef(null)
 
-  // Touch state
   const touchLastRef = useRef({ x: 0, y: 0 })
   const touchTimeRef = useRef(0)
   const isTouchingRef = useRef(false)
 
-  // Wheel active state
   const wheelActiveRef = useRef(false)
 
-  // Mouse drag state
   const isDraggingRef = useRef(false)
   const dragLastRef = useRef({ x: 0, y: 0 })
   const dragTimeRef = useRef(0)
 
-  // Last known center cell — to avoid redundant tile updates
-  const lastCenterRef = useRef({ row: 0, col: 0 })
-
-  // Track each tile's current poster id to skip redundant backgroundImage writes
-  const tilePosterRef = useRef(new Array(TILE_COUNT).fill(null))
-
-  // Last reported poster id — to avoid redundant onPosterChange calls
+  const lastCenterColRef = useRef(-999)
+  const lastColRowCentersRef = useRef(new Array(tileCols).fill(-999))
+  const tilePosterRef = useRef(new Array(tileCount).fill(null))
   const lastPosterIdRef = useRef(null)
 
-  // Viewport and cell dimensions
   const initVw = typeof window !== 'undefined' ? window.innerWidth : 1000
   const initVh = typeof window !== 'undefined' ? window.innerHeight : 1000
   const initCellW = Math.min(initVw, initVh * POSTER_ASPECT)
@@ -63,55 +64,80 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     cellH: initCellW / POSTER_ASPECT,
   })
 
-  // Imperatively update tile positions and images — synchronous, no React render
+  // Precompute direction for each pool column
+  const colDirs = useRef([])
+  useEffect(() => {
+    const dirs = []
+    for (let c = 0; c < tileCols; c++) {
+      const dc = c - halfC
+      dirs.push(Math.abs(dc) % 2 === 0 ? 1 : -1)
+    }
+    colDirs.current = dirs
+    lastColRowCentersRef.current = new Array(tileCols).fill(-999)
+    tilePosterRef.current = new Array(tileCount).fill(null)
+    lastCenterColRef.current = -999
+  }, [tileCols, tileCount, halfC])
+
   const updateTiles = useCallback(() => {
     const { cellW, cellH } = viewportRef.current
-    const centerRow = Math.round(offsetRef.current.y / cellH)
-    const centerCol = Math.round(offsetRef.current.x / cellW)
+    const { x, y } = offsetRef.current
+    const centerCol = Math.round(x / cellW)
 
-    // Skip if center hasn't changed
-    if (centerRow === lastCenterRef.current.row && centerCol === lastCenterRef.current.col) return
-    lastCenterRef.current = { row: centerRow, col: centerCol }
+    const colChanged = centerCol !== lastCenterColRef.current
+    if (colChanged) lastCenterColRef.current = centerCol
 
-    const halfC = Math.floor(TILE_COLS / 2)
-    const halfR = Math.floor(TILE_ROWS / 2)
-    let i = 0
+    for (let c = 0; c < tileCols; c++) {
+      const dc = c - halfC
+      const actualCol = centerCol + dc
+      const dir = colDirs.current[c]
 
-    for (let dr = -halfR; dr <= halfR; dr++) {
-      for (let dc = -halfC; dc <= halfC; dc++) {
-        const row = centerRow + dr
-        const col = centerCol + dc
-        const idx = mod(row + col, posters.length)
+      const effectiveY = dir * y
+      const centerRowForCol = Math.round(effectiveY / cellH)
+
+      const rowChanged = centerRowForCol !== lastColRowCentersRef.current[c]
+      if (!colChanged && !rowChanged) continue
+      lastColRowCentersRef.current[c] = centerRowForCol
+
+      for (let r = 0; r < tileRows; r++) {
+        const dr = r - halfR
+        const row = centerRowForCol + dr
+        const idx = mod(row + actualCol, posters.length)
         const posterId = posters[idx].id
-        const el = tileEls.current[i]
+        const tileIdx = c * tileRows + r
+        const el = tileEls.current[tileIdx]
         if (el) {
-          el.style.left = `${col * cellW}px`
+          el.style.left = `${actualCol * cellW}px`
           el.style.top = `${row * cellH}px`
           el.style.width = `${cellW}px`
           el.style.height = `${cellH}px`
-          if (tilePosterRef.current[i] !== posterId) {
-            tilePosterRef.current[i] = posterId
-            el.style.backgroundImage = `url(${posterImages[posterId]})`
+          if (tilePosterRef.current[tileIdx] !== posterId) {
+            tilePosterRef.current[tileIdx] = posterId
+            const img = el.firstChild
+            if (img) img.src = posterImages[posterId]
           }
         }
-        i++
       }
     }
-  }, [posters, posterImages])
+  }, [posters, posterImages, tileCols, tileRows, halfC, halfR])
 
+  // Only 2 DOM writes per frame — one per mover
   const updateTransform = useCallback(() => {
-    if (moverRef.current) {
-      const { x, y } = offsetRef.current
-      const { vw, cellW } = viewportRef.current
-      const centerOffsetX = (vw - cellW) / 2
-      moverRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${-y}px, 0)`
+    const { x, y } = offsetRef.current
+    const { vw, cellW } = viewportRef.current
+    const centerOffsetX = (vw - cellW) / 2
+    if (moverEvenRef.current) {
+      moverEvenRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${-y}px, 0)`
+    }
+    if (moverOddRef.current) {
+      moverOddRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${y}px, 0)`
     }
   }, [])
 
   const reportCurrentPoster = useCallback(() => {
     const { cellW, cellH } = viewportRef.current
-    const row = Math.round(offsetRef.current.y / cellH)
-    const col = Math.round(offsetRef.current.x / cellW)
+    const { x, y } = offsetRef.current
+    const col = Math.round(x / cellW)
+    const row = Math.round(y / cellH)
     const idx = mod(row + col, posters.length)
     const posterId = posters[idx].id
     if (posterId !== lastPosterIdRef.current) {
@@ -134,7 +160,6 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     }
   }, [])
 
-  // Unified spring animation
   const startSpring = useCallback(() => {
     const friction = 0.96
     const threshold = 0.3
@@ -199,7 +224,6 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     animFrameRef.current = requestAnimationFrame(springFrame)
   }, [updateGrid])
 
-  // Friction-only coast for scroll wheel
   const startCoast = useCallback(() => {
     const coastFriction = 0.97
 
@@ -230,7 +254,6 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     animFrameRef.current = requestAnimationFrame(coastFrame)
   }, [updateGrid])
 
-  // Slow drift to nearest poster — takes ~2 seconds
   const startSlowDrift = useCallback(() => {
     const ease = 0.02
     const threshold = 0.3
@@ -283,13 +306,17 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     const el = containerRef.current
     if (!el) return
 
-    // Initial centering and tile layout
-    if (moverRef.current) {
-      const { vw, cellW } = viewportRef.current
-      const centerOffsetX = (vw - cellW) / 2
-      moverRef.current.style.transform = `translate3d(${centerOffsetX}px, 0px, 0)`
+    // Initial transforms
+    const { vw, cellW } = viewportRef.current
+    const centerOffsetX = (vw - cellW) / 2
+    if (moverEvenRef.current) {
+      moverEvenRef.current.style.transform = `translate3d(${centerOffsetX}px, 0px, 0)`
     }
-    lastCenterRef.current = { row: -999, col: -999 } // force first update
+    if (moverOddRef.current) {
+      moverOddRef.current.style.transform = `translate3d(${centerOffsetX}px, 0px, 0)`
+    }
+    lastCenterColRef.current = -999
+    lastColRowCentersRef.current.fill(-999)
     updateTiles()
 
     function handleWheel(e) {
@@ -426,8 +453,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
       velocityRef.current = { x: 0, y: 0 }
 
       cancelAnimation()
-      lastCenterRef.current = { row: -999, col: -999 } // force tile update
-      updateGrid()
+      setTileCounts(computeTileCounts())
     }
 
     el.addEventListener('wheel', handleWheel, { passive: false })
@@ -452,29 +478,51 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
       clearTimeout(wheelTimeoutRef.current)
       clearTimeout(wheelMagnetTimeoutRef.current)
     }
-  }, [cancelAnimation, updateGrid, updateTiles, snapToNearest, startMomentum, startCoast, startSlowDrift, reportCurrentPoster])
+  }, [tileCols, tileRows, cancelAnimation, updateGrid, updateTiles, snapToNearest, startMomentum, startCoast, startSlowDrift, reportCurrentPoster])
 
-  // Report initial poster
   useEffect(() => {
     onPosterChange(posters[0])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Render fixed pool of tile divs — never re-rendered by React
-  const tileDivs = []
-  for (let i = 0; i < TILE_COUNT; i++) {
-    tileDivs.push(
-      <div
-        key={i}
-        ref={(el) => { tileEls.current[i] = el }}
-        className="grid-tile"
-      />
-    )
+  const preloadedRef = useRef(false)
+  useEffect(() => {
+    if (preloadedRef.current) return
+    preloadedRef.current = true
+    posters.forEach((p) => {
+      const img = new Image()
+      img.src = posterImages[p.id]
+    })
+  }, [posters, posterImages])
+
+  // Split tiles between two movers based on pool column direction
+  const evenTiles = []
+  const oddTiles = []
+  for (let c = 0; c < tileCols; c++) {
+    const dc = c - halfC
+    const isOdd = Math.abs(dc) % 2 !== 0
+    for (let r = 0; r < tileRows; r++) {
+      const tileIdx = c * tileRows + r
+      const tile = (
+        <div
+          key={tileIdx}
+          ref={(el) => { tileEls.current[tileIdx] = el }}
+          className="grid-tile"
+        >
+          <img src="" alt="" draggable={false} />
+        </div>
+      )
+      if (isOdd) oddTiles.push(tile)
+      else evenTiles.push(tile)
+    }
   }
 
   return (
     <div ref={containerRef} className="infinite-grid-viewport">
-      <div ref={moverRef} className="infinite-grid-mover">
-        {tileDivs}
+      <div ref={moverEvenRef} className="infinite-grid-mover">
+        {evenTiles}
+      </div>
+      <div ref={moverOddRef} className="infinite-grid-mover">
+        {oddTiles}
       </div>
     </div>
   )

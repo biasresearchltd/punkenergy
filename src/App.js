@@ -7,7 +7,7 @@ import { CSSGrainOverlay } from './components/CSSGrainOverlay'
 import './styles.css'
 
 // Grain mode: 'canvas' (original) | 'css' (pre-baked PNG, zero JS)
-const GRAIN_MODE = 'css'
+const GRAIN_MODE = 'none'
 
 export const colors = {
   green: '#00FF46',
