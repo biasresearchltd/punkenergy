@@ -49,6 +49,9 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   const dragLastRef = useRef({ x: 0, y: 0 })
   const dragTimeRef = useRef(0)
 
+  // When true, all columns use dir=1 (no alternating) for coherent horizontal browsing
+  const hScrollLockedRef = useRef(false)
+
   const lastCenterColRef = useRef(-999)
   const lastColRowCentersRef = useRef(new Array(tileCols).fill(-999))
   const tilePosterRef = useRef(new Array(tileCount).fill(null))
@@ -89,7 +92,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     for (let c = 0; c < tileCols; c++) {
       const dc = c - halfC
       const actualCol = centerCol + dc
-      const dir = colDirs.current[c]
+      const dir = hScrollLockedRef.current ? 1 : colDirs.current[c]
 
       const effectiveY = dir * y
       const centerRowForCol = Math.round(effectiveY / cellH)
@@ -125,11 +128,15 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     const { x, y } = offsetRef.current
     const { vw, cellW } = viewportRef.current
     const centerOffsetX = (vw - cellW) / 2
+    const evenTransform = `translate3d(${-x + centerOffsetX}px, ${-y}px, 0)`
     if (moverEvenRef.current) {
-      moverEvenRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${-y}px, 0)`
+      moverEvenRef.current.style.transform = evenTransform
     }
     if (moverOddRef.current) {
-      moverOddRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${y}px, 0)`
+      // When hScroll locked, both movers move identically
+      moverOddRef.current.style.transform = hScrollLockedRef.current
+        ? evenTransform
+        : `translate3d(${-x + centerOffsetX}px, ${y}px, 0)`
     }
   }, [])
 
@@ -328,9 +335,24 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
       if (e.shiftKey || e.ctrlKey) {
         dx = e.deltaY
         dy = 0
+        // Enter hScroll mode — snap Y and unify columns
+        if (!hScrollLockedRef.current) {
+          hScrollLockedRef.current = true
+          const { cellH } = viewportRef.current
+          offsetRef.current.y = Math.round(offsetRef.current.y / cellH) * cellH
+          velocityRef.current.y = 0
+          lastCenterColRef.current = -999
+          lastColRowCentersRef.current.fill(-999)
+        }
       } else {
         dx = e.deltaX
         dy = e.deltaY
+        // Exit hScroll mode — restore alternating columns
+        if (hScrollLockedRef.current) {
+          hScrollLockedRef.current = false
+          lastCenterColRef.current = -999
+          lastColRowCentersRef.current.fill(-999)
+        }
       }
 
       offsetRef.current.x += dx
@@ -355,6 +377,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     }
 
     function handleTouchStart(e) {
+      hScrollLockedRef.current = false
       cancelAnimation()
       const t = e.touches[0]
       touchLastRef.current = { x: t.clientX, y: t.clientY }
@@ -395,6 +418,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     }
 
     function handleMouseDown(e) {
+      hScrollLockedRef.current = false
       cancelAnimation()
       isDraggingRef.current = true
       dragLastRef.current = { x: e.clientX, y: e.clientY }
