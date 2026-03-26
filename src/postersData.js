@@ -10,6 +10,7 @@ import pstr008 from './pstr/pstr008.png'
 import pstr009 from './pstr/pstr009.png'
 import pstr010 from './pstr/pstr010.png'
 import pstr011 from './pstr/pstr011.png'
+import pstr012 from './pstr/pstr012.png'
 
 export const posters = [
   { id: 1, backgroundColor: 'pink', hoverColor: 'chartreuse', blurb: 'PUNK: Mindware: wiym\nware is your mind.\n(originally published)\nOCTOBER 2, 2022\nPOSTER 001\n\nINFORMATION AGED\nALL ORGANIC\nSAVE THE MOTHER\nFREE YOUR PUNK \u2022\u25CB\u00B0\n\nBROUGHT TO YOU BY PUNK \u2022\u25CB\u00B0\nART BY BIAS\n\nDON\u2019T FORGET TO UNSUBSCRIBE\nEVERYTHING WILL BE OK.' },
@@ -23,6 +24,7 @@ export const posters = [
   { id: 9, backgroundColor: 'blue', hoverColor: 'green', blurb: 'PUNK: Mindware: AHA\nNO LONGER COGS\nIN THE BUMMER MACHINE,\nWE ARE AHA:\nATTENTION-HIJACKED ANONYMOUS\nFEBRUARY 4, 2024\nPOSTER 009\n\n2\u03360\u0336t\u0336h\u0336 \u0336C\u0336e\u0336n\u0336t\u0336u\u0336r\u0336y\u0336 \u0336B\u0336i\u0336n\u0336a\u0336r\u0336i\u0336e\u0336s\u0336\nINFORMATION AGED\nALL ORGANIC\nSAVE THE MOTHER\nFREE YOUR PUNK \u2022\u25CB\u00B0\n\nPUNK \u2022\u25CB\u00B0\nPUNKEnergy\n\nBROUGHT TO YOU BY PUNK \u2022\u25CB\u00B0\nART BY BIAS\n\nDON\u2019T FORGET TO UNSUBSCRIBE\nEVERYTHING WILL BE OK.\n\ndedicated to Chris\nLOVE YOU FOREVER' },
   { id: 10, backgroundColor: 'yellow', hoverColor: 'orange', blurb: '\u30D1\u30F3\u30AF: Mindware: ME\n\u30D1\u30F3\u30AF: Mindware: Mothership Earth\nx antiMEME\nMARCH 8, 2024\nPOSTER 010\n\nAHA!\nNirvana in the Holofoil form\nWorld, meet Antimeme\nAntimeme, Mothership Earth\n\n2\u03360\u0336t\u0336h\u0336 \u0336C\u0336e\u0336n\u0336t\u0336u\u0336r\u0336y\u0336 \u0336B\u0336i\u0336n\u0336a\u0336r\u0336i\u0336e\u0336s\u0336\nINFORMATION AGED\nALL ORGANIC\nSAVE THE MOTHER\nFREE YOUR PUNK \u2022\u25CB\u00B0\n\nPUNK \u2022\u25CB\u00B0\nPUNKEnergy\n\nBROUGHT TO YOU BY PUNK \u2022\u25CB\u00B0\nART BY BIAS\n\nDON\u2019T FORGET TO UNSUBSCRIBE\nEVERYTHING WILL BE OKAOS.' },
   { id: 11, backgroundColor: 'green', hoverColor: 'pink', blurb: 'PUNK: Mindware: P.W.N.S.\nPUNK: Mindware: Pathways Within Network Solutions\nMAY 5, 2024\nPOSTER 011\n\nANTIMEME\nPathways Within Network Solutions\n\n2\u03360\u0336t\u0336h\u0336 \u0336C\u0336e\u0336n\u0336t\u0336u\u0336r\u0336y\u0336 \u0336B\u0336i\u0336n\u0336a\u0336r\u0336i\u0336e\u0336s\u0336\nINFORMATION AGED\nALL ORGANIC\nSAVE THE MOTHER\nFREE YOUR PUNK \u2022\u25CB\u00B0\n\nPUNK \u2022\u25CB\u00B0\nPUNKEnergy\n\nBROUGHT TO YOU BY PUNK \u2022\u25CB\u00B0\nART BY BIAS\n\nDON\u2019T FORGET TO UNSUBSCRIBE\nEVERYTHING WILL BE OKAOS.' },
+  { id: 12, backgroundColor: 'pink', hoverColor: 'chartreuse', blurb: 'ANTIMEME x BIAS' },
 ]
 
 export const posterImages = {
@@ -37,4 +39,5 @@ export const posterImages = {
   9: pstr009,
   10: pstr010,
   11: pstr011,
+  12: pstr012,
 }

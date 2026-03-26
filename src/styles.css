@@ -157,7 +157,7 @@ p {
   margin: 0;
   text-transform: uppercase;
   font-weight: normal;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'CMU Typewriter Text', monospace;
   position: relative;
   white-space: pre-line;
 }

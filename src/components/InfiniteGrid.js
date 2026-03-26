@@ -29,7 +29,11 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   const moverOddRef = useRef(null)
   const tileEls = useRef([])
 
-  const offsetRef = useRef({ x: 0, y: 0 })
+  const initCellW2 = Math.min(
+    typeof window !== 'undefined' ? window.innerWidth : 1000,
+    (typeof window !== 'undefined' ? window.innerHeight : 1000) * POSTER_ASPECT,
+  )
+  const offsetRef = useRef({ x: (posters.length - 1) * initCellW2, y: 0 })
   const velocityRef = useRef({ x: 0, y: 0 })
   const targetRef = useRef({ x: 0, y: 0 })
 
@@ -313,14 +317,15 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
     const el = containerRef.current
     if (!el) return
 
-    // Initial transforms
+    // Initial transforms — start at the current offset (last poster)
     const { vw, cellW } = viewportRef.current
+    const { x, y } = offsetRef.current
     const centerOffsetX = (vw - cellW) / 2
     if (moverEvenRef.current) {
-      moverEvenRef.current.style.transform = `translate3d(${centerOffsetX}px, 0px, 0)`
+      moverEvenRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${-y}px, 0)`
     }
     if (moverOddRef.current) {
-      moverOddRef.current.style.transform = `translate3d(${centerOffsetX}px, 0px, 0)`
+      moverOddRef.current.style.transform = `translate3d(${-x + centerOffsetX}px, ${y}px, 0)`
     }
     lastCenterColRef.current = -999
     lastColRowCentersRef.current.fill(-999)
@@ -505,7 +510,7 @@ export default function InfiniteGrid({ posters, posterImages, onPosterChange }) 
   }, [tileCols, tileRows, cancelAnimation, updateGrid, updateTiles, snapToNearest, startMomentum, startCoast, startSlowDrift, reportCurrentPoster])
 
   useEffect(() => {
-    onPosterChange(posters[0])
+    onPosterChange(posters[posters.length - 1])
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const preloadedRef = useRef(false)
